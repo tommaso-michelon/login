@@ -35,17 +35,17 @@ public class UserController {
 		return userService.getUser(mail);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/users")
+	@PostMapping("/users")
 	public void addUser(@RequestBody User user) {
 		userService.addUser(user);
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT, value="/users")
+	@PutMapping("/users")
 	public void updateUser(@RequestBody User user) {
 		userService.updateUser(user);
 	}
 	
-	@RequestMapping(method=RequestMethod.DELETE, value="/users/{mail}")
+	@DeleteMapping("/users/{mail}")
 	public void deleteUser(@PathVariable String mail) {
 		userService.deleteUser(mail);
 	}
