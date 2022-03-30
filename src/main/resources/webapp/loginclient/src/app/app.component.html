@@ -1,0 +1,10 @@
+<h1>Users</h1>
+<div *ngFor="let user of users">
+<div>User: {{user.mail}}</div>
+</div>
+
+<input type="text" [(ngModel)]="user.mail">
+<button type="submit" (click)="submitGetUser()">GET</button>
+{{user.password}}
+<!--<div>User: {{users[0].mail}}</div>-->
+
