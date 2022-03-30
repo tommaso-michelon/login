@@ -12,13 +12,15 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   public getUsers(): Observable<User[]>{
-    //return this.http.get<User>('${this.serverUrl}/users');
     return this.http.get<User[]>(this.serverUrl+'/users');
   }
 
   public getUser(mail: string): Observable<User>{
-    //return this.http.get<User>('${this.serverUrl}/users');
     return this.http.get<User>(this.serverUrl+'/users/'+mail);
+  }
+
+  public loginUser(user: User): Observable<User>{
+    return this.http.post<User>(this.serverUrl+'/login', user);
   }
 
   public addUser(user: User): Observable<User>{
@@ -30,7 +32,6 @@ export class UserService {
   }
 
   public deleteUser(mail: string): Observable<User>{
-    //user: User = this.getUser(mail).subscribe()
     return this.http.delete<User>(this.serverUrl+'/users/'+mail);
   }
 

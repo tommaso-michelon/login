@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { User } from './user';
 import { UserService } from './user.service';
 
@@ -27,6 +28,18 @@ export class AppComponent {
       (response: User[]) => {
         this.users = response;
         console.log("Utenti: ", response);
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  submitLogin(loginForm: NgForm): void{
+    console.log("Login ", loginForm.value);   //sistemare
+    this.userService.loginUser(loginForm.value).subscribe(
+      (response: User) => {
+        console.log("User logged: ", response);
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

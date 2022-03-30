@@ -1,9 +1,9 @@
 <div class="container">
     <h1>User Manager</h1>
-    <form #addForm = "ngForm">
+    <form #registrationForm = "ngForm">
         <pre></pre>
         <div class="form-group">
-            <label for="email">Mail</label><br>
+            <label for="mail">Mail</label><br>
             <input required type="text" name="mail" class = "form-control" #mail="ngModel"  ngModel>
             <div *ngIf="mail.invalid" class="alert alert-danger">
                <p>Mail required</p>
@@ -18,8 +18,8 @@
             </div>
         </div>
         <pre></pre>
-        <button class="btn btn-primary" id="add-user-form" type="submit" [disabled]="!addForm.form.valid" (click)="submitAdd(addForm)">Add</button>
-        <button class="btn btn-secondary" id="update-user-form" type="submit" [disabled]="!addForm.form.valid" (click)="submitUpdate(addForm)">Update</button>
-        <button class="btn btn-secondary" id="delete-user-form" type="submit" (click)="submitDelete(addForm)">Delete</button>
+        <button class="btn btn-primary" id="add-user-form" type="submit" [disabled]="!registrationForm.form.valid" (click)="submitAdd(registrationForm)">Add</button>
+        <button class="btn btn-secondary" id="update-user-form" type="submit" [disabled]="!registrationForm.form.valid" (click)="submitUpdate(registrationForm)">Update</button>
+        <button class="btn btn-secondary" id="delete-user-form" type="submit" (click)="submitDelete(registrationForm)">Delete</button>
     </form>
 </div>
