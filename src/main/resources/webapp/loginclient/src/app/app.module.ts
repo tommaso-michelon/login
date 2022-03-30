@@ -20,6 +20,6 @@ import { FormComponentComponent } from './form-component/form-component.componen
     FormsModule
   ],
   providers: [UserService],
-  bootstrap: [FormComponentComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

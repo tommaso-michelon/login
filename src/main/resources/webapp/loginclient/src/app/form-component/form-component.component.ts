@@ -15,6 +15,7 @@ export class FormComponentComponent implements OnInit {
 
   ngOnInit(): void {}
 
+
   submitAdd(addForm: NgForm): void{
     console.log("Form submitted", addForm.value);   //sistemare
     //document.getElementById('add-user-form').click();
@@ -23,7 +24,7 @@ export class FormComponentComponent implements OnInit {
         addForm.reset();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        alert(error.message+"\nMail already registered");
         addForm.reset();
       }
     );
@@ -37,7 +38,7 @@ export class FormComponentComponent implements OnInit {
         addForm.reset();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        alert(error.message+"\nUser not found");
         addForm.reset();
       }
     );
@@ -51,7 +52,7 @@ export class FormComponentComponent implements OnInit {
         addForm.reset();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message+"\nUtente non esistente");
+        alert(error.message+"\nUser not found");
         addForm.reset();
       }
     );
