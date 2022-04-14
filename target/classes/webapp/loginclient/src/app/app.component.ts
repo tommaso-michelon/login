@@ -42,7 +42,8 @@ export class AppComponent {
         console.log("User logged: ", response);
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        if(error.status == 401) alert(error.message+"\nPassword incorrect");
+        else alert(error.message+"\nUser not found"); 
       }
     );
   }

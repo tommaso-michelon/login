@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { User } from '../user';
 import { UserService } from '../user.service';
 
@@ -11,7 +12,7 @@ import { UserService } from '../user.service';
 })
 export class FormComponentComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {}
 
@@ -22,37 +23,10 @@ export class FormComponentComponent implements OnInit {
     this.userService.addUser(addForm.value).subscribe(
       (response: User) => {
         addForm.reset();
+        this.router.navigate(['login']);
       },
       (error: HttpErrorResponse) => {
         alert(error.message+"\nMail already registered");
-        addForm.reset();
-      }
-    );
-  }
-
-  submitUpdate(addForm: NgForm): void{
-    console.log("Form submitted", addForm.value);   //sistemare
-    //document.getElementById('update-user-form').click();
-    this.userService.updateUser(addForm.value).subscribe(
-      (response: User) => {
-        addForm.reset();
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message+"\nUser not found");
-        addForm.reset();
-      }
-    );
-  }
-
-  submitDelete(addForm: NgForm): void{
-    console.log("Form submitted", addForm.value);   //sistemare
-    //document.getElementById('delete-user-form').click();
-    this.userService.deleteUser(addForm.value.mail).subscribe(
-      (response: User) => {
-        addForm.reset();
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message+"\nUser not found");
         addForm.reset();
       }
     );

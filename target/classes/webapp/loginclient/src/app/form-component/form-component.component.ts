@@ -24,7 +24,7 @@ export class FormComponentComponent implements OnInit {
         addForm.reset();
       },
       (error: HttpErrorResponse) => {
-        alert(error.error);
+        alert(error.message+"\nMail already registered");
         addForm.reset();
       }
     );
@@ -38,7 +38,7 @@ export class FormComponentComponent implements OnInit {
         addForm.reset();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message+"\nUtente non esistente");
+        alert(error.message+"\nUser not found");
         addForm.reset();
       }
     );
@@ -52,7 +52,7 @@ export class FormComponentComponent implements OnInit {
         addForm.reset();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message+"\nUtente non esistente");
+        alert(error.message+"\nUser not found");
         addForm.reset();
       }
     );
