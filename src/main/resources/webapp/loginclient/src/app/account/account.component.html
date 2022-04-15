@@ -1,5 +1,35 @@
 <h2>Welcome {{user.mail}}</h2>
-<a routerLink="nft">Manage your NFTs</a>
+<div>
+    <h2>My NFTs</h2>
+    <!--<ul class="nft">
+        <li *ngFor="let nft of NFTs">
+    </ul>
+    <button type="button" (click)="addNft()">ADD NFT</button>-->
+    <button type="button" (click)="onClickForm()">+</button>   
+    <div *ngIf="isActive">
+        <form #addForm = "ngForm">
+            Name: <input required type="text" name="name" #name="ngModel" ngModel>
+            <div *ngIf="name.invalid" class="alert alert-danger">
+                <p>Name required</p>
+            </div>
+            <pre></pre>
+            ID class: <input required type="text" name="id" #id="ngModel" ngModel>
+            <div *ngIf="id.invalid" class="alert alert-danger">
+                <p>ID required</p>
+            </div>
+            <pre></pre>
+            Owner: <input type="text" name="owner" #owner="ngModel" ngModel><pre></pre>
+            Price: <input required type="number" name="price" #price="ngModel" ngModel>
+            <div *ngIf="owner.invalid" class="alert alert-danger">
+                <p>Owner required</p>
+            </div>
+            <pre></pre>
+            Image: <input required type="file" name="image" #image="ngModel" ngModel>
+            <pre></pre>
+            <button type="submit" [disabled]="!addForm.form.valid" (click)="submitAdd()">ADD</button>   
+        </form>
+    </div>
+</div>
 <pre></pre>
 <a routerLink="manage">Manage your account</a>
 <pre></pre>
