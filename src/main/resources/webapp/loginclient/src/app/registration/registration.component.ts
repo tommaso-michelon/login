@@ -6,11 +6,11 @@ import { User } from '../user';
 import { UserService } from '../user.service';
 
 @Component({
-  selector: 'app-form-component',
-  templateUrl: './form-component.component.html',
-  styleUrls: ['./form-component.component.css']
+  selector: 'app-registration-component',
+  templateUrl: './registration.component.html',
+  styleUrls: ['./registration.component.css']
 })
-export class FormComponentComponent implements OnInit {
+export class RegistrationComponent implements OnInit {
 
   constructor(private userService: UserService, private router: Router) { }
 

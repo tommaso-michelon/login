@@ -4,7 +4,7 @@
         <pre></pre>
         <div class="form-group">
             <label for="mail">Mail</label><br>
-            <input required type="text" name="mail" class = "form-control" #mail="ngModel"  ngModel>
+            <input required type="email" name="mail" class = "form-control" #mail="ngModel" ngModel pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
             <div *ngIf="mail.invalid" class="alert alert-danger">
                <p>Mail required</p>
             </div>
