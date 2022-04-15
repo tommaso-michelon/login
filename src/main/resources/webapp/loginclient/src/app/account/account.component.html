@@ -18,10 +18,9 @@
                 <p>ID required</p>
             </div>
             <pre></pre>
-            Owner: <input type="text" name="owner" #owner="ngModel" ngModel><pre></pre>
             Price: <input required type="number" name="price" #price="ngModel" ngModel>
-            <div *ngIf="owner.invalid" class="alert alert-danger">
-                <p>Owner required</p>
+            <div *ngIf="price.invalid" class="alert alert-danger">
+                <p>Price required</p>
             </div>
             <pre></pre>
             Image: <input required type="file" name="image" #image="ngModel" ngModel>
