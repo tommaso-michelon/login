@@ -1,0 +1,38 @@
+<h2>Login</h2>
+<div>
+    <form #loginForm = "ngForm">
+        <pre></pre>
+        <div class="form-group">
+            <label for="mail">Mail</label><br>
+            <input required type="text" name="mail" class = "form-control" #mail="ngModel"  ngModel>
+            <div *ngIf="mail.invalid" class="alert alert-danger">
+               <p>Mail required</p>
+            </div>
+        </div>
+        <pre></pre>
+        <div class="form-group">
+            <label for="password">Password</label><br>
+            <input required type="password" name="password" class = "form-control" #password="ngModel" ngModel>
+            <div *ngIf="password.invalid" class="alert alert-danger">
+                <p>Password required</p>
+            </div>
+        </div>
+        <pre></pre>
+        <button type="button" class="btn btn-primary" id="login-user-form" type="submit" [disabled]="!loginForm.form.valid" (click)="submitLogin(loginForm)">LOGIN</button>
+        <pre></pre>
+        <a routerLink="/registration">Registration</a>
+    </form>
+</div>
+
+<!--<router-outlet></router-outlet>-->
+
+
+<!-- da TOGLIERE
+<h1>Users</h1>
+<div *ngFor="let user of users">
+<div>User: {{user.mail}}</div>
+</div>
+
+<input type="text" [(ngModel)]="user.mail">
+<button type="submit" (click)="submitGetUser()">GET</button>
+{{user.password}}-->

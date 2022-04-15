@@ -1,0 +1,22 @@
+<div class="container">
+    <h1>Account Manager</h1>
+    <form #managerForm = "ngForm">
+        <pre></pre>
+        <div class="form-group">
+            <h3>Change your password</h3>
+            <label for="password">New password</label><br>
+            <input required type="password" name="password" class = "form-control" #password="ngModel" ngModel>
+            <div *ngIf="password.invalid" class="alert alert-danger">
+                <p>Password required</p>
+            </div>
+        </div>
+        <pre></pre>
+        <button class="btn btn-secondary" id="update-user-form" type="submit" [disabled]="!managerForm.form.valid" (click)="submitUpdate(managerForm)">Update</button>
+        <pre></pre>
+        <pre></pre>
+        <h3>Delete your account</h3>
+        <button class="btn btn-secondary" id="delete-user-form" type="submit" (click)="submitDelete(managerForm)">Delete</button>
+        <pre></pre>
+        <a routerLink="/account">Back to your user page</a>
+    </form>
+</div>
