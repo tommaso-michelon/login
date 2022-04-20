@@ -19,7 +19,7 @@ public class User {
 		this.password = password;
 	}
 	
-	public User() {}
+	protected User() {}
 	
 	public String getMail() {
 		return mail;
@@ -41,4 +41,5 @@ public class User {
 	public String toString() {
 		return "User [mail=" + mail + ", password=" + password + "]";
 	}
+	
 }

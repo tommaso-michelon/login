@@ -20,11 +20,11 @@ public class MyNft implements Serializable{
 	@Id
 	@ManyToOne
 	@JoinColumn(name="owner_mail")
-	private User owner;
+	private User owner;	//owner's mail
 	@Column(nullable = false)
 	private String id;
 	@Column(nullable = false)
-	private double price;
+	private Double price;
 	@Column(nullable = false)
 	private String image;
 	
@@ -36,7 +36,7 @@ public class MyNft implements Serializable{
 		this.image = image;
 	}
 	
-	public MyNft() {}
+	protected MyNft() {}
 
 	public String getName() {
 		return name;
@@ -51,7 +51,7 @@ public class MyNft implements Serializable{
 	}
 	
 	public void setOwner(User owner) {
-		this.owner = owner;
+		this.owner = (User)owner;
 	}
 	
 	public String getId() {
