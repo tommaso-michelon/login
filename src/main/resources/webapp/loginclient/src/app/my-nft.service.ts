@@ -18,11 +18,15 @@ export class MyNftService {
    */
 
   public addNFT(nft: MyNft): Observable<MyNft>{
-    return this.http.post<MyNft>(this.serverUrl+'/login', nft);
+    return this.http.post<MyNft>(this.serverUrl+'/nft', nft);
   }
 
   public getAllNFT(mail: string): Observable<MyNft[]>{
-    return this.http.get<MyNft[]>(this.serverUrl+'/login'); //pass mail
+    return this.http.get<MyNft[]>(this.serverUrl+'/nft/'+mail); //pass mail
+  }
+
+  public deleteNFT(mail: string, nftName: string): Observable<MyNft>{
+    return this.http.delete<MyNft>(this.serverUrl+'/nft/'+mail+'/'+nftName);
   }
 
 }

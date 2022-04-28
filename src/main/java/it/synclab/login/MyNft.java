@@ -8,8 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Entity
 @Table(name="nft")
@@ -17,21 +19,18 @@ import javax.persistence.Table;
 public class MyNft implements Serializable{
 	@Id
 	private String name;
-	@Id
-	@ManyToOne
-	@JoinColumn(name="owner_mail")
-	private User owner;	//owner's mail
-	@Column(nullable = false)
-	private String id;
 	@Column(nullable = false)
 	private Double price;
-	@Column(nullable = false)
-	private String image;
+	/*@Column(nullable = false)
+	private String image;*/
+	@ManyToOne @JoinColumn(name="image_id")
+	private Image image;
+	@Id @ManyToOne @JoinColumn(name="owner_mail")
+	private User owner;	//owner's mail
 	
-	public MyNft(String name, User owner, String id, double price, String image) {
+	public MyNft(String name, Image image, double price, User owner) {
 		this.name = name;
 		this.owner = owner;
-		this.id = id;
 		this.price = price;
 		this.image = image;
 	}
@@ -50,17 +49,24 @@ public class MyNft implements Serializable{
 		return owner;
 	}
 	
-	public void setOwner(User owner) {
-		this.owner = (User)owner;
+	@JsonSetter("owner")
+	public void setOwner(Object owner) {
+		ObjectMapper mapper = new ObjectMapper();
+		User pojo = mapper.convertValue(owner, User.class);
+		//System.out.println("setOwner User 1 arg - mail: "+ pojo.getMail());
+		this.owner = new User(pojo.getMail(), pojo.getPassword());
+	}
+	/*
+	public void setOwner(String mail, String password) {
+		this.owner = new User(mail, password);
+		System.out.println("setOwner String 2 arg");
 	}
 	
-	public String getId() {
-		return id;
-	}
+	public void setOwner(String mail) {
+		this.owner = new User(mail, "");
+		System.out.println("setOwner String 1 arg");
+	}*/
 	
-	public void setId(String id) {
-		this.id = id;
-	}
 	
 	public double getPrice() {
 		return price;
@@ -70,17 +76,17 @@ public class MyNft implements Serializable{
 		this.price = price;
 	}
 	
-	public String getImage() {
+	public Image getImage() {
 		return image;
 	}
 	
-	public void setImage(String image) {
+	public void setImage(Image image) {
 		this.image = image;
 	}
 
 	@Override
 	public String toString() {
-		return "MyNft [name=" + name + ", owner=" + owner + ", id=" + id + ", price=" + price + ", image=" + image
+		return "MyNft [name=" + name + ", owner=" + owner + ", price=" + price + ", image=" + image
 				+ "]";
 	}
 	

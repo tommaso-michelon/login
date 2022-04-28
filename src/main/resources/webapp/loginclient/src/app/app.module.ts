@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
 import { ManageAccountComponent } from './manage-account/manage-account.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { RegistrationComponent } from './registration/registration.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [UserService, AuthService],
   bootstrap: [AppComponent]

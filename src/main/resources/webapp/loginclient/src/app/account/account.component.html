@@ -1,21 +1,15 @@
 <h2>Welcome {{user.mail}}</h2>
 <div>
     <h2>My NFTs</h2>
-    <!--<ul class="nft">
-        <li *ngFor="let nft of NFTs">
+    <ul class="nft">
+        <li *ngFor="let nft of myNFTs">{{nft.name}} <a href="javascript: void(0);" type ='button' class="btn btn-link" (click)="removeNft(nft)">Remove</a></li>
     </ul>
-    <button type="button" (click)="addNft()">ADD NFT</button>-->
     <button type="button" (click)="onClickForm()">+</button>   
     <div *ngIf="isActive">
         <form #addForm = "ngForm">
             Name: <input required type="text" name="name" #name="ngModel" ngModel>
             <div *ngIf="name.invalid" class="alert alert-danger">
                 <p>Name required</p>
-            </div>
-            <pre></pre>
-            ID class: <input required type="text" name="id" #id="ngModel" ngModel>
-            <div *ngIf="id.invalid" class="alert alert-danger">
-                <p>ID required</p>
             </div>
             <pre></pre>
             Price: <input required type="number" name="price" #price="ngModel" ngModel>
@@ -25,7 +19,7 @@
             <pre></pre>
             Image: <input required type="file" name="image" #image="ngModel" ngModel>
             <pre></pre>
-            <button type="submit" [disabled]="!addForm.form.valid" (click)="submitAdd()">ADD</button>   
+            <button type="submit" [disabled]="!addForm.form.valid" (click)="addNft(addForm)">ADD</button>   
         </form>
     </div>
 </div>
@@ -33,3 +27,45 @@
 <a routerLink="manage">Manage your account</a>
 <pre></pre>
 <button type="button" (click)="logout()">LOGOUT</button>
+
+<pre></pre>
+<div class="container row">
+    <div class="col-md-12">
+        <h1>Upload Image</h1>
+    </div>
+</div>
+
+<div class="container row">
+    <div class="col-md-6">
+        <input type="file" (change)="onFileChanged($event)">
+
+    </div>
+    <div class="col-md-6">
+        <input type="button" (click)="onUpload()" value="upload">
+    </div>
+</div>
+<hr />
+<div class="container row">
+    <div class="col-md-12">
+        <div *ngIf=message>{{message}}</div>
+    </div>
+</div>
+
+<div class="container row">
+    <div class="col-md-6">
+        <input type="text" class="form-control" id="name" placeholder="image name" [(ngModel)]="imageName"
+            name="name" />
+    </div>
+    <div class="col-md-6">
+        <input type="button" (click)="getImage()" value="Get Image">
+
+    </div>
+</div>
+
+<div class="container row">
+    <div class="col-md-12">
+        <div *ngIf=retrievedImage>
+            <img [src]="retrievedImage">
+        </div>
+    </div>
+</div>

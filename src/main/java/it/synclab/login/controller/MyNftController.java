@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.http.MediaType;
 
 import it.synclab.login.MyNft;
@@ -34,13 +37,12 @@ public class MyNftController {
 	}
 	
 	@PostMapping(value = "/nft", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void addNft(@RequestBody MyNft nft) throws ResponseStatusException {
-		if(nft instanceof MyNft) {
-			System.out.println("MYNFT: "+nft);
-			if(nft.getOwner() instanceof User) System.out.println("USER: "+nft.getOwner());
-		}
-		else System.out.println("NO");
-		myNftService.addNft(nft);
+	public void addNft(@RequestBody Object nft) throws ResponseStatusException {
+		//if(nft instanceof MyNft) System.out.println("NFT");
+		ObjectMapper mapper = new ObjectMapper();
+		MyNft pojo = mapper.convertValue(nft, MyNft.class);
+		System.out.println("Controller");
+		myNftService.addNft(pojo);
 	}
 	
 	@PutMapping("/nft")
