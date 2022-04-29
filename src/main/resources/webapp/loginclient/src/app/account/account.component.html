@@ -4,12 +4,19 @@
     <ul class="nft">
         <li *ngFor="let nft of myNFTs; index as i">
             {{nft.name}} 
-            <a href="javascript: void(0);" type ='button' class="btn btn-link" (click)="removeNft(nft)">Remove</a>
+            <a href="javascript: void(0);" type ='button' class="btn btn-link" (click)="openConfirm(template)">Sell</a>
             <div class="container row">
                 <div class="col-md-12">
                     <img src={{retrievedImages[i]}}>
                 </div>
             </div>
+            <ng-template #template>
+                <div class="modal-body text-center">
+                  <p>Do you want to sell {{nft.name}} - PRICE: {{nft.price}} ?</p>
+                  <button type="button" class="btn btn-default" (click)="removeNft(nft)" >Yes</button>
+                  <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+                </div>
+              </ng-template>
         </li>
     </ul>
     <button type="button" (click)="onClickForm()">+</button>   

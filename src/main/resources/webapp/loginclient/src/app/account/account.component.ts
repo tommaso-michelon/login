@@ -1,11 +1,12 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { MyNftService } from '../my-nft.service';
 import { MyNft } from '../myNft';
 import { User } from '../user';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-account',
@@ -25,7 +26,9 @@ export class AccountComponent implements OnInit {
   message?: string;
   imageName: any;
 
-  constructor( private router: Router, private authService: AuthService, private myNftService: MyNftService, private httpClient: HttpClient) {
+  modalRef?: BsModalRef;
+
+  constructor( private router: Router, private authService: AuthService, private myNftService: MyNftService, private httpClient: HttpClient, private modalService: BsModalService) {
     this.user = {
       mail: "",
       password: ""
@@ -141,7 +144,16 @@ export class AccountComponent implements OnInit {
     );
   }
 
+  openConfirm(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  }
+ 
+  decline(): void {
+    this.modalRef!.hide();
+  }
+
   public removeNft(remNFT: MyNft): void{
+    this.modalRef!.hide();
     console.log("RemoveNft submitted: ", remNFT.name);   //sistemare
     this.myNftService.deleteNFT(this.user.mail, remNFT.name).subscribe(
       (response: MyNft) => {

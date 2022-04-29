@@ -12,6 +12,7 @@ import { AuthService } from './auth.service';
 import { ManageAccountComponent } from './manage-account/manage-account.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ModalModule.forRoot() 
   ],
   providers: [UserService, AuthService],
   bootstrap: [AppComponent]
