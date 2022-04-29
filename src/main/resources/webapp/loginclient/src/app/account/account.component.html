@@ -2,7 +2,15 @@
 <div>
     <h2>My NFTs</h2>
     <ul class="nft">
-        <li *ngFor="let nft of myNFTs">{{nft.name}} <a href="javascript: void(0);" type ='button' class="btn btn-link" (click)="removeNft(nft)">Remove</a></li>
+        <li *ngFor="let nft of myNFTs; index as i">
+            {{nft.name}} 
+            <a href="javascript: void(0);" type ='button' class="btn btn-link" (click)="removeNft(nft)">Remove</a>
+            <div class="container row">
+                <div class="col-md-12">
+                    <img src={{retrievedImages[i]}}>
+                </div>
+            </div>
+        </li>
     </ul>
     <button type="button" (click)="onClickForm()">+</button>   
     <div *ngIf="isActive">
@@ -17,7 +25,10 @@
                 <p>Price required</p>
             </div>
             <pre></pre>
-            Image: <input required type="file" name="image" #image="ngModel" ngModel>
+            Image: <input required type="file" name="image" #image="ngModel" ngModel (change)="onFileChanged($event)">
+            <!--
+            <input required type="file" name="image" #image="ngModel" ngModel >
+            -->
             <pre></pre>
             <button type="submit" [disabled]="!addForm.form.valid" (click)="addNft(addForm)">ADD</button>   
         </form>
@@ -28,6 +39,7 @@
 <pre></pre>
 <button type="button" (click)="logout()">LOGOUT</button>
 
+<!--
 <pre></pre>
 <div class="container row">
     <div class="col-md-12">
@@ -69,3 +81,4 @@
         </div>
     </div>
 </div>
+-->

@@ -19,9 +19,9 @@ export class AccountComponent implements OnInit {
   isActive: boolean = false;
 
   selectedFile?: File;
-  retrievedImage: any;
+  retrievedImages: any[];
   base64Data: any;
-  retrieveResonse: any;
+  retrieveResponse: any;
   message?: string;
   imageName: any;
 
@@ -31,6 +31,7 @@ export class AccountComponent implements OnInit {
       password: ""
     };
     this.myNFTs = new Array();
+    this.retrievedImages = new Array();
   }
 
   ngOnInit(): void {
@@ -43,6 +44,7 @@ export class AccountComponent implements OnInit {
     this.router.navigate(['login']);
   }
 
+  //Gets called when the user wants to add and nft
   public onClickForm(): void{
     this.isActive = !this.isActive;
   }
@@ -53,16 +55,41 @@ export class AccountComponent implements OnInit {
     this.selectedFile = event.target.files[0];
   }
 
-  //Gets called when the user clicks on submit to upload the image
-  onUpload() {
+  //Gets called to get the image of an NFT from back end
+  public getImage(imageName: string) {
+    //Make a call to Spring Boot to get the Image Bytes.
+    this.httpClient.get('http://localhost:8080/get/' + imageName)
+      .subscribe(
+        res => {
+          this.retrieveResponse = res;
+          this.base64Data = this.retrieveResponse.data;
+          this.retrievedImages.push('data:image/jpeg;base64,' + this.base64Data);
+        }
+      );
+  }
+
+
+  public addNft(addForm: NgForm):void{
+    this.myNewNft = addForm.value;
+    if(this.myNewNft) this.myNewNft.owner = this.user;
+
+    //image
     console.log(this.selectedFile);
     
     //FormData API provides methods and properties to allow us easily prepare form data to be sent with POST HTTP requests.
     const uploadImageData = new FormData();
-    uploadImageData.append('imageFile', this.selectedFile!, this.selectedFile?.name);
-  
-    //Make a call to the Spring Boot Application to save the image
-    this.httpClient.post('http://localhost:8080/upload', uploadImageData, { observe: 'response' })
+    const index: number = this.user.mail.indexOf('@');
+    const name: string = this.user.mail.substring(0, index)+'_'+this.myNewNft!.name+'_'+this.selectedFile!.name;
+    uploadImageData.append('imageFile', this.selectedFile!, name);
+    
+    //image saved before nft in the DB
+    var isPresent: boolean = false;
+    for (var nft of this.myNFTs) {
+      if(nft.name == this.myNewNft!.name) isPresent = true;
+    }
+    if(!isPresent){
+      //Make a call to the Spring Boot Application to save the image
+      this.httpClient.post('http://localhost:8080/upload', uploadImageData, { observe: 'response' })
       .subscribe((response: any) => {
         if (response.status === 200) {
           this.message = 'Image uploaded successfully';
@@ -71,26 +98,16 @@ export class AccountComponent implements OnInit {
         }
       }
       );
-  }
-
-    //Gets called when the user clicks on retieve image button to get the image from back end
-    getImage() {
-    //Make a call to Sprinf Boot to get the Image Bytes.
-    this.httpClient.get('http://localhost:8080/get/' + this.imageName)
-      .subscribe(
-        res => {
-          this.retrieveResonse = res;
-          this.base64Data = this.retrieveResonse.data;
-          this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
-        }
-      );
-  }
-
-
-
-  public addNft(addForm: NgForm):void{
-    this.myNewNft = addForm.value;
-    if(this.myNewNft) this.myNewNft.owner = this.user;
+    }
+    
+      const image = {
+        id: 0,  //correct id gived by back end
+        name: name,
+        type: this.selectedFile?.type || "",
+        data: this.selectedFile?.arrayBuffer
+      };
+      this.myNewNft!.image = image;
+    if(this.myNewNft) this.myNewNft.image = image;
     console.log("Form submitted", this.myNewNft);   //sistemare
     this.myNftService.addNFT(this.myNewNft!).subscribe(
       (response: MyNft) => {
@@ -113,6 +130,10 @@ export class AccountComponent implements OnInit {
       (response: MyNft[]) => {
         this.myNFTs = this.myNFTs.concat(response);
         console.log("elementi array:", this.myNFTs.length, "\n", this.myNFTs.toString()); //togliere
+        for (var nft of this.myNFTs) {
+          console.log("Chiedo img: ", nft.image.name);
+          this.getImage(nft.image.name);
+        }
       },
       (error: HttpErrorResponse) => {
         alert(error.message+"\nNFT not valid"); //sistemare
@@ -124,7 +145,8 @@ export class AccountComponent implements OnInit {
     console.log("RemoveNft submitted: ", remNFT.name);   //sistemare
     this.myNftService.deleteNFT(this.user.mail, remNFT.name).subscribe(
       (response: MyNft) => {
-        this.myNFTs.splice(0, this.myNFTs.length);  //removeAll
+        this.myNFTs.splice(0, this.myNFTs.length);  //removeAll nft
+        this.retrievedImages.splice(0, this.retrievedImages.length);  //removeAll images
         this.getAllNft();
       },
       (error: HttpErrorResponse) => {

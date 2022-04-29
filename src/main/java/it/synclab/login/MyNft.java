@@ -2,30 +2,39 @@ package it.synclab.login;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.persistence.ForeignKey;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Entity
-@Table(name="nft")
-@IdClass(MyNft.class)
+@Table(name="nft", uniqueConstraints = { @UniqueConstraint(name = "UniqueNameAndOwner", columnNames = { "name", "owner_mail" }) })
+//@IdClass(MyNft.class)
 public class MyNft implements Serializable{
-	@Id
+	
+	@Id @Column(name="id") @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
 	private String name;
-	@Column(nullable = false)
+	
 	private Double price;
-	/*@Column(nullable = false)
-	private String image;*/
-	@ManyToOne @JoinColumn(name="image_id")
+	
+	@OneToOne(cascade=CascadeType.REMOVE) @JoinColumn(name="image_id", foreignKey = @ForeignKey(name="nft_image"))
 	private Image image;
-	@Id @ManyToOne @JoinColumn(name="owner_mail")
+	
+	@ManyToOne @JoinColumn(name="owner_mail", foreignKey = @ForeignKey(name="nft_owner"))
 	private User owner;	//owner's mail
 	
 	public MyNft(String name, Image image, double price, User owner) {

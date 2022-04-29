@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,6 +20,8 @@ public class Image {
 	private String type;
 	@Column(name = "data" , length = 1000)
 	private byte[] data;
+	/*@OneToOne(mappedBy = "image")
+	private MyNft nft;*/
 	
 	public Image() { }
 

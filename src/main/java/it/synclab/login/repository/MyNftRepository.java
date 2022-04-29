@@ -19,6 +19,8 @@ public interface MyNftRepository extends JpaRepository<MyNft, String>{
 	public Optional<MyNft> findByName(String name);
 	@Transactional
 	public void deleteByNameAndOwner(String name, User owner);
+	@Transactional
+	public void deleteAllByOwner(User owner);
 	@Modifying
 	@Transactional
 	@Query(

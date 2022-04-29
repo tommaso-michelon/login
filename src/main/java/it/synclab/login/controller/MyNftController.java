@@ -55,4 +55,9 @@ public class MyNftController {
 		myNftService.deleteNft(mail, name);
 	}
 	
+	@DeleteMapping("/nft/{mail}")
+	public void deleteAllNftUser(@PathVariable String mail) throws ResponseStatusException {
+		myNftService.deleteAllNftUser(mail);
+	}
+	
 }

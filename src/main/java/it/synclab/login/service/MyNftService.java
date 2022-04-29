@@ -9,14 +9,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import it.synclab.login.Image;
 import it.synclab.login.MyNft;
 import it.synclab.login.User;
+import it.synclab.login.repository.ImageRepository;
 import it.synclab.login.repository.MyNftRepository;
 
 @Service
 public class MyNftService {
 	@Autowired
 	private MyNftRepository myNftRepository;
+	@Autowired
+	private ImageRepository imageRepository;
 	
 	public List<MyNft> getAllNft(String mail) {
 		List<MyNft> list = new ArrayList<>();
@@ -38,6 +42,13 @@ public class MyNftService {
 		MyNft neee = new MyNft("nft3", (User)t, "IDDD", 2, "image");*/
 		//System.out.println("NFT arrivato: "+nft.getOwner());
 		System.out.println("Service");
+		Image[] img = imageRepository.findAllByName(nft.getImage().getName()).get();
+		while(img.length == 0) {
+			System.out.println("Iterazione");
+			img = imageRepository.findAllByName(nft.getImage().getName()).get();
+		}
+		nft.setImage(img[img.length-1]);
+		System.out.println("imageID: "+nft.getImage().getId());
 		System.out.println("Risposta: "+myNftRepository.save(nft));
 		//myNftRepository.insertNft(nft.getName(), nft.getImage(), nft.getPrice(), nft.getOwner().getMail());
 	}
@@ -51,7 +62,12 @@ public class MyNftService {
 		User tempUser = new User(mail, "");
 		System.out.println("delete: "+ tempUser.getMail());
 		//if(!isSaved(nameNft)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nft not found"); 
-		myNftRepository.deleteByNameAndOwner(nameNft, tempUser);
+		myNftRepository.deleteByNameAndOwner(nameNft, tempUser);;
+	}
+	
+	public void deleteAllNftUser(String mail) {
+		User tempUser = new User(mail, "");
+		myNftRepository.deleteAllByOwner(tempUser);
 	}
 	
 	private boolean isSaved(String name) {

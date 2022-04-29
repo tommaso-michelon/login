@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import it.synclab.login.User;
+import it.synclab.login.repository.MyNftRepository;
 import it.synclab.login.repository.UserRepository;
 
 @Service
@@ -17,6 +18,8 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private MyNftRepository myNftRepository;
 
 	public List<User> getAllUsers() {
 		List<User> u = new ArrayList<>();
@@ -51,8 +54,15 @@ public class UserService {
 	}
 
 	public void deleteUser(String mail) {
-		if(!isRegistered(mail)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"); 
+		if(!isRegistered(mail)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found");
+		//delete all user's nft
+		User tempUser = new User(mail, "");
+		myNftRepository.deleteAllByOwner(tempUser);
+		//delete user
 		userRepository.deleteById(mail);
+		
+		
+		
 	}
 	
 	private boolean isRegistered(String mail) {

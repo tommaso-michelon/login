@@ -23,7 +23,7 @@ public class ImageService {
 	}
 	
 	public Image getImage(String name) {
-		Image retrievedImage = imageRepository.findByName(name).get();
+		Image retrievedImage = imageRepository.findFirstByName(name).get();
 		Image img = new Image(retrievedImage.getName(), retrievedImage.getType(), retrievedImage.getData());
 	    return img;
 	}
