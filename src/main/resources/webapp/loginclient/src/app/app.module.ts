@@ -13,6 +13,9 @@ import { ManageAccountComponent } from './manage-account/manage-account.componen
 import { RegistrationComponent } from './registration/registration.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { AlertModule, AlertConfig } from 'ngx-bootstrap/alert';
+import { ToastrModule } from 'ngx-toastr';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,10 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    ModalModule.forRoot() 
+    AlertModule.forRoot(),
+    ModalModule.forRoot(),
+    ToastrModule.forRoot(),
+    BsDropdownModule.forRoot()
   ],
   providers: [UserService, AuthService],
   bootstrap: [AppComponent]

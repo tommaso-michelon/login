@@ -1,25 +1,65 @@
-<div class="container">
-    <h1>User Manager</h1>
-    <form #registrationForm = "ngForm">
-        <pre></pre>
-        <div class="form-group">
-            <label for="mail">Mail</label><br>
-            <input required type="email" name="mail" class = "form-control" #mail="ngModel" ngModel pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-            <div *ngIf="mail.invalid" class="alert alert-danger">
-               <p>Mail required</p>
+<html lang="en" class="h-100">
+<body class="h-100">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
+        <div class="container-fluid">
+            <a class="navbar-brand abs " href="account">NFT store</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+                    <li class="nav-item">
+                        <span class="navbar-text ">Welcome</span>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav flex-row justify-content-md-center justify-content-start flex-nowrap">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" routerLink="/login">Login</a>
+                    </li>
+                </ul>
+        </div>
+        </div>
+    </nav>
+
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-10 col-md-8 col-lg-6">
+                <form class="form-example" #registrationForm = "ngForm" >
+                    <div *ngIf="visibleAlert">
+                        <alert type="danger" dismissOnTimeout="5000" [dismissible]="visibleAlert" (onClosed)="onClosed()"><span [innerHtml]="alertMsg"></span></alert>
+                    </div>
+                    <h1>Registration</h1>
+                    <!--<pre></pre>-->
+                    <div class="form-group">
+                        <label for="mail" >Email address</label>
+                        <input required type="email" name="mail" id="mail" class = "form-control username" #mail="ngModel" ngModel pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Enter email">
+                        <div *ngIf="mail.errors"> 
+                            <div *ngIf="mail.errors?.['required']"> 
+                                Mail required
+                            </div>			   
+                            <div *ngIf="mail.errors?.['pattern']"> 
+                                <p class="text-danger">Mail invalid</p>
+                            </div>	
+                         </div> 
+                    </div>
+                    <pre></pre>
+                    <div class="form-group">
+                        <label for="password" >Password</label>
+                        <input required type="password" name="password" id="password" class = "form-control password" #password="ngModel" ngModel placeholder="Enter password">
+                        <div *ngIf="password.errors"> 
+                            <div *ngIf="password.errors?.['required']"> 
+                                Password required
+                            </div>
+                        </div>
+                    </div>
+                    <pre></pre>
+                    <button type="button" class="btn btn-primary btn-customized" id="add-user-form" type="submit" [disabled]="!registrationForm.form.valid" (click)="submitAdd(registrationForm)">ADD</button>
+                    <pre></pre>
+                </form>
             </div>
         </div>
-        <pre></pre>
-        <div class="form-group">
-            <label for="password">Password</label><br>
-            <input required type="password" name="password" class = "form-control" #password="ngModel" ngModel>
-            <div *ngIf="password.invalid" class="alert alert-danger">
-                <p>Password required</p>
-            </div>
-        </div>
-        <pre></pre>
-        <button class="btn btn-primary" id="add-user-form" type="submit" [disabled]="!registrationForm.form.valid" (click)="submitAdd(registrationForm)">Add</button>
-        <pre></pre>
-        <a routerLink="/login">Login</a>
-    </form>
-</div>
+    </div>
+
+</body>
+</html>

@@ -2,6 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertComponent, AlertConfig } from 'ngx-bootstrap/alert';
+import { ToastrService } from 'ngx-toastr';
 import { User } from '../user';
 import { UserService } from '../user.service';
 
@@ -12,7 +14,13 @@ import { UserService } from '../user.service';
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor(private userService: UserService, private router: Router) { }
+  alertMsg: string;
+  visibleAlert: boolean;
+
+  constructor(private userService: UserService, private router: Router, private toastr: ToastrService) {
+    this.alertMsg = "";
+    this.visibleAlert = false;
+  }
 
   ngOnInit(): void {}
 
@@ -24,12 +32,19 @@ export class RegistrationComponent implements OnInit {
       (response: User) => {
         addForm.reset();
         this.router.navigate(['login']);
+        this.toastr.success('Please sign in', 'ACCOUNT CREATED!');
       },
       (error: HttpErrorResponse) => {
-        alert(error.message+"\nMail already registered");
+        this.alertMsg = "<strong>WARNING</strong><br >Mail already registered";
+        this.visibleAlert = true;
+        console.log(error.message); //togliere
         addForm.reset();
       }
     );
+  }
+
+  public onClosed(): void{
+    this.visibleAlert = false;
   }
 
 }

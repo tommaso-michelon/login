@@ -12,10 +12,16 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  title = 'loginclient';
+  title = 'NFT store';
   public users!: User[];
-  
-  constructor(private userService: UserService, private router: Router, private authService: AuthService){ }
+
+  alertMsg: string;
+  visibleAlert: boolean;
+
+  constructor(private userService: UserService, private router: Router, private authService: AuthService){
+    this.alertMsg = "";
+    this.visibleAlert = false;
+  }
   
   ngOnInit(): void {
     this.getUsers();
@@ -29,7 +35,7 @@ export class LoginComponent {
         console.log("Utenti: ", response);
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        console.log(error.message);
       }
     );
   }
@@ -43,10 +49,23 @@ export class LoginComponent {
         this.router.navigate(['account']);
       },
       (error: HttpErrorResponse) => {
-        if(error.status == 401) alert(error.message+"\nPassword incorrect");
-        else alert(error.message+"\nUser not found"); 
+        if(error.status == 401){
+          this.alertMsg = "<strong>WARNING</strong><br >Password incorrect";
+          this.visibleAlert = true;
+          console.log(error.message);
+        } 
+        else{
+          this.alertMsg = "<strong>WARNING</strong><br >User not found";
+          this.visibleAlert = true;
+          console.log(error.message); 
+        }
       }
     );
+  }
+
+  //close alert - not visible
+  onClosed(): void {
+    this.visibleAlert = false;
   }
 
 

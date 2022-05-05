@@ -7,6 +7,7 @@ import { MyNftService } from '../my-nft.service';
 import { MyNft } from '../myNft';
 import { User } from '../user';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-account',
@@ -28,13 +29,18 @@ export class AccountComponent implements OnInit {
 
   modalRef?: BsModalRef;
 
-  constructor( private router: Router, private authService: AuthService, private myNftService: MyNftService, private httpClient: HttpClient, private modalService: BsModalService) {
+  alertMsg: string;
+  visibleAlert: boolean;
+
+  constructor( private router: Router, private authService: AuthService, private myNftService: MyNftService, private httpClient: HttpClient, private toastr: ToastrService, private modalService: BsModalService) {
     this.user = {
       mail: "",
       password: ""
     };
     this.myNFTs = new Array();
     this.retrievedImages = new Array();
+    this.alertMsg = "";
+    this.visibleAlert = false;
   }
 
   ngOnInit(): void {
@@ -101,10 +107,8 @@ export class AccountComponent implements OnInit {
         }
       }
       );
-    }
-    
       const image = {
-        id: 0,  //correct id gived by back end
+        id: 0,  //correct id given by back end
         name: name,
         type: this.selectedFile?.type || "",
         data: this.selectedFile?.arrayBuffer
@@ -116,14 +120,31 @@ export class AccountComponent implements OnInit {
       (response: MyNft) => {
         addForm.reset();
         this.onClickForm();
+        this.toastr.success(this.myNewNft!.name+' has been created - PRICE: '+this.myNewNft!.price,'NFT CREATED!');
         this.myNFTs.splice(0, this.myNFTs.length);  //removeAll
         this.getAllNft();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message+"\nNFT not valid");
+        this.alertMsg = "<strong>WARNING</strong><br >NFT not valid - name already used";
+        this.visibleAlert = true;
+        console.log(error.message);
+        this.onClickForm();
         addForm.reset();
+        
       }
     );
+    }//if
+    else{
+      this.alertMsg = "<strong>WARNING</strong><br >NFT not valid - name already used";
+      this.visibleAlert = true;
+      this.onClickForm();
+      addForm.reset();
+    }
+  }
+
+  //set alert not visible
+  public onClosed(): void{
+    this.visibleAlert = false;
   }
 
   public getAllNft():void{
@@ -139,15 +160,17 @@ export class AccountComponent implements OnInit {
         }
       },
       (error: HttpErrorResponse) => {
-        alert(error.message+"\nNFT not valid"); //sistemare
+        console.log(error.message+"\nNFT not valid"); //sistemare
       }
     );
   }
 
+  //confirm sell nft
   openConfirm(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
- 
+  
+  //decline sell nft
   decline(): void {
     this.modalRef!.hide();
   }
@@ -157,12 +180,13 @@ export class AccountComponent implements OnInit {
     console.log("RemoveNft submitted: ", remNFT.name);   //sistemare
     this.myNftService.deleteNFT(this.user.mail, remNFT.name).subscribe(
       (response: MyNft) => {
+        this.toastr.success(remNFT.name+' selled - PRICE: '+remNFT.price,'NFT deleted!');
         this.myNFTs.splice(0, this.myNFTs.length);  //removeAll nft
         this.retrievedImages.splice(0, this.retrievedImages.length);  //removeAll images
         this.getAllNft();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message+"\nNft not found");
+        console.log(error.message+"\nNft not found");
       }
     );
   }
