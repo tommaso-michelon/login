@@ -6,4 +6,5 @@ export interface MyNft{
     owner?: User;   //no owner?
     price: number;
     image: Image;
+    isSold: boolean;
 }

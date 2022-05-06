@@ -46,7 +46,7 @@ public class MyNftController {
 	}
 	
 	@PutMapping("/nft")
-	public void updateUser(@RequestBody  MyNft nft) throws ResponseStatusException {
+	public void updateNft(@RequestBody  MyNft nft) throws ResponseStatusException {
 		myNftService.updateNft(nft);
 	}
 	

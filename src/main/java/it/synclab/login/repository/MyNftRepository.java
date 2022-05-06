@@ -29,4 +29,9 @@ public interface MyNftRepository extends JpaRepository<MyNft, String>{
 	  nativeQuery = true)
 	void insertNft(@Param("name") String name, @Param("image") String image, 
 			@Param("price") Double price, @Param("owner_mail") String owner_mail);
+	
+	@Modifying
+	@Transactional
+	@Query("update MyNft set isSold = :sold where name = :name")
+	public void updateNft(@Param("name") String name, @Param("sold") boolean sold);
 }

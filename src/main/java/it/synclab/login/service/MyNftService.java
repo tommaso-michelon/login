@@ -55,7 +55,8 @@ public class MyNftService {
 	
 	public void updateNft(MyNft nft) {
 		if(!isSaved(nft.getName())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nft not found");
-		myNftRepository.save(nft);
+		myNftRepository.updateNft(nft.getName(), nft.getIsSold());
+		//myNftRepository.save(nft);
 	}
 
 	public void deleteNft(String mail, String nameNft) {

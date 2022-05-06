@@ -1,5 +1,8 @@
 package it.synclab.login;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -63,7 +66,15 @@ public class Image {
 		this.data = data;
 	}
 	
-	
-	
+	public byte[] getHash() {
+		MessageDigest digest;
+		try {
+			digest = MessageDigest.getInstance("SHA-256");
+			return digest.digest(data);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return new byte[0];
+		}
+	}
 	
 }

@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.ForeignKey;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -31,6 +34,8 @@ public class MyNft implements Serializable{
 	
 	private Double price;
 	
+	private boolean isSold;
+	
 	@OneToOne(cascade=CascadeType.REMOVE) @JoinColumn(name="image_id", foreignKey = @ForeignKey(name="nft_image"))
 	private Image image;
 	
@@ -42,9 +47,12 @@ public class MyNft implements Serializable{
 		this.owner = owner;
 		this.price = price;
 		this.image = image;
+		this.isSold = false;
 	}
 	
-	protected MyNft() {}
+	protected MyNft() {
+		this.isSold = false;
+	}
 
 	public String getName() {
 		return name;
@@ -92,10 +100,18 @@ public class MyNft implements Serializable{
 	public void setImage(Image image) {
 		this.image = image;
 	}
+	
+	public boolean getIsSold() {
+		return isSold;
+	}
+	
+	public void setIsSold(boolean isSold) {
+		this.isSold = isSold;
+	}
 
 	@Override
 	public String toString() {
-		return "MyNft [name=" + name + ", owner=" + owner + ", price=" + price + ", image=" + image
+		return "MyNft [name=" + name + ", owner=" + owner + ", price=" + price + ", image=" + image + ", isSold=" + isSold
 				+ "]";
 	}
 	

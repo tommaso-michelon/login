@@ -2,13 +2,13 @@
 body { font-family: 'Open Sans', sans-serif; font-size: 15px; font-weight: 400; color: #888; line-height: 30px; text-align: center; }
 
 a { color: #4DB6AC; border-bottom: 1px  #4DB6AC; text-decoration: none; transition: all .3s; }
-a:hover, a:focus { color: #4DB6AC; border-bottom: 1px solid #4DB6AC; text-decoration: none; }
+a:hover, a:focus { color: #47a69d; border-bottom: 1px solid #47a69d; text-decoration: none; }
 
 h1 { font-size: 50px; font-weight: 300; color: #555; line-height: 46px; font-style: italic; }
 h3 { font-size: 26px; font-weight: 300; color: #555; line-height: 46px; font-style: italic; }
 
-::-moz-selection { background: #4DB6AC; color: #fff; text-shadow: none; }
-::selection { background: #4DB6AC; color: #fff; text-shadow: none; }
+::-moz-selection { background: #47a69d; color: #fff; text-shadow: none; }
+::selection { background: #47a69d; color: #fff; text-shadow: none; }
 
 
 .form-example { padding: 20px 0; }
@@ -59,13 +59,13 @@ h3 { font-size: 26px; font-weight: 300; color: #555; line-height: 46px; font-sty
 .form-example button.btn-customized.active:focus,
 .form-example button.btn.btn-primary:not(:disabled):not(.disabled):active,
 .form-example button.btn.btn-primary:not(:disabled):not(.disabled):active:focus {
-	outline: 0; background: #4DB6AC; border: 0; color: #fff; box-shadow: none;
+	outline: 0; background: #47a69d; border: 0; color: #fff; box-shadow: none;
 }
 
-.form-example input.ng-touched.ng-invalid
-{
+.form-example input.ng-touched.ng-invalid{
   border: 2px solid red;
 }
+
 button.btn-customized {
 	padding: .75rem 1.5rem; 
 	background: #4DB6AC;
@@ -83,10 +83,20 @@ button.btn-customized:active:focus,
 button.btn-customized.active:focus,
 button.btn.btn-primary:not(:disabled):not(.disabled):active,
 button.btn.btn-primary:not(:disabled):not(.disabled):active:focus {
-	outline: 0; background: #4DB6AC; border: 0; color: #fff; box-shadow: none;
+	outline: 0; background: #47a69d; border: 0; color: #fff; box-shadow: none;
 }
 
 .card.h-100 a.btn-customized {
+	padding: .75rem 1.5rem; 
+	background: #4DB6AC;
+	border: 0; 
+	font-family: 'Open Sans', sans-serif;
+	font-size: 15px;
+	font-weight: 400; color: #fff; 
+    box-shadow: none;
+}
+
+.card.h-100 .btn-customized:disabled {
 	padding: .75rem 1.5rem; 
 	background: #4DB6AC;
 	border: 0; 
@@ -100,7 +110,10 @@ button.btn.btn-primary:not(:disabled):not(.disabled):active:focus {
 	border: 1px solid #4DB6AC;
 	margin-bottom: 2rem;
 	width: 30rem;
-	background-color: #f8f9fa;	/*bg-light*/
+}
+
+.card.h-100 .card-body{
+	background-color: #f8f9fa;
 }
 
 .card.h-100 img{
