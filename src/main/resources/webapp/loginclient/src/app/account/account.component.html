@@ -72,7 +72,7 @@
               <pre></pre>
               <div class="form-group">
                 <label for="price" >Price</label>
-                <input required type="number" name="price" #price="ngModel" ngModel class="form-control">
+                <input required type="number" name="price" #price="ngModel" ngModel class="form-control" min="0">
                 <div *ngIf="price.errors"> 
                   <div *ngIf="price.errors?.['required']"> 
                       Price required
