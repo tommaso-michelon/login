@@ -2,9 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from '../user';
-import { UserService } from '../user.service';
-import { AuthService } from '../auth.service';
+import { User } from '../interface/user';
+import { UserService } from '../service/user.service';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -27,8 +27,8 @@ export class LoginComponent {
     this.getUsers();
   }
 
-  //non serve
-  public getUsers(): void{
+  //not used
+  public getUsers(): void {
     this.userService.getUsers().subscribe(
       (response: User[]) => {
         this.users = response;
@@ -40,8 +40,8 @@ export class LoginComponent {
     );
   }
 
-  public submitLogin(loginForm: NgForm): void{
-    console.log("Login ", loginForm.value);   //sistemare
+  public submitLogin(loginForm: NgForm): void {
+    //console.log("Login ", loginForm.value);
     this.userService.loginUser(loginForm.value).subscribe(
       (response: User) => {
         console.log("User logged: ", response);
@@ -68,18 +68,4 @@ export class LoginComponent {
     this.visibleAlert = false;
   }
 
-
-  //da RIMUOVERE
-  /*public submitGetUser(): void{
-    console.log("MAIL: ", this.user.mail);
-    this.userService.getUser(this.user.mail).subscribe(
-      (response: User) => {
-        this.user.password=response.password;
-        console.log("Password utente: ", response.password);
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
-  }*/
 }

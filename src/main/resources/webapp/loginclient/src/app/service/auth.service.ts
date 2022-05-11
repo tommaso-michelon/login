@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { User } from './user';
+import { User } from '../interface/user';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class AuthService implements CanActivate{
     return false;
   }
 
-  public login(user: User): void{
+  public login(user: User): void {
     localStorage.setItem("currentUser", JSON.stringify(user));
     this.isUserLoggedIn();
   }
@@ -36,7 +36,7 @@ export class AuthService implements CanActivate{
     localStorage.removeItem("currentUser");
   }
 
-  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.isUserLoggedIn())
       return true;
     this.router.navigate(['login']);

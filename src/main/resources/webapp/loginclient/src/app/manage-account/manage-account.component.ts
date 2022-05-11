@@ -4,9 +4,9 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../auth.service';
-import { User } from '../user';
-import { UserService } from '../user.service';
+import { AuthService } from '../service/auth.service';
+import { User } from '../interface/user';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-manage-account',
@@ -36,13 +36,13 @@ export class ManageAccountComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem("currentUser") || "");
   }
 
-  public logout():void{
+  public logout(): void {
     this.authService.logout();
     this.router.navigate(['login']);
   }
 
-  public submitUpdate(managerForm: NgForm): void{
-    console.log("Update submitted", managerForm.value, "   ", managerForm.value.password);   //sistemare
+  public submitUpdate(managerForm: NgForm): void {
+    //console.log("Update submitted", managerForm.value, "   ", managerForm.value.password);
     //new password == old password
     if(managerForm.value.password == this.user.password){
       this.alertMsg = "<strong>WARNING</strong><br >Password not changed - insert a new password";
@@ -68,7 +68,7 @@ export class ManageAccountComponent implements OnInit {
   }
 
   //close alert - not visible
-  public onClosed(): void{
+  public onClosed(): void {
     this.visibleAlert = false;
   }
 
@@ -82,8 +82,8 @@ export class ManageAccountComponent implements OnInit {
     this.modalRef!.hide();
   }
 
-  public submitDelete(managerForm: NgForm): void{
-    console.log("Delete submitted", managerForm.value);   //sistemare
+  public submitDelete(managerForm: NgForm): void {
+    //console.log("Delete submitted", managerForm.value);
     this.user = JSON.parse(localStorage.getItem("currentUser") || "");
     this.userService.deleteUser(this.user!.mail).subscribe(
       (response: User) => {

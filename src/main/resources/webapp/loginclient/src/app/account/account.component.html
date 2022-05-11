@@ -1,147 +1,114 @@
 <html lang="en" class="h-100">
-<body class="h-100">
+    <body class="h-100">
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
-    <div class="container-fluid">
-        <a class="navbar-brand abs " href="account">NFT store</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
-                <li class="nav-item">
-                    <span class="navbar-text ">Welcome {{user.mail}}</span>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav flex-row justify-content-md-center justify-content-start flex-nowrap">
-              <li class="nav-item">
-                <button type="button" class="btn btn-primary btn-customized" (click)="onClickForm()">ADD NFT</button>
-              </li>
-                <!--<li class="nav-item dropdown">
-                        <div class="btn-group" dropdown container="body">
-                            <button class="btn btn-primary dropdown-toggle" id="button-basic" type="button" id="btnDropdownDemo" dropdownToggle  aria-controls="dropdown-basic">
-                              ADD NFT<span class="caret"></span>
-                            </button>
-                            <form class="dropdown-menu col-xs-12" *dropdownMenu #addForm = "ngForm">
-                              <div class="form-group">
-                                Name: <input required type="text" name="name" #name="ngModel" ngModel class="form-control" placeholder="Name">
-                              </div>
-                              <div class="form-group">
-                                Price: <input required type="number" name="price" #price="ngModel" ngModel class="form-control">
-                              </div>
-                              <div class="form-group">
-                                Image: <input required type="file" name="image" #image="ngModel" ngModel (change)="onFileChanged($event)" class="form-control" accept="image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp">
-                                <button type="submit" class="btn btn-primary btn-customized" [disabled]="!addForm.form.valid" (click)="addNft(addForm)">ADD</button>
-                              </div>
-                              
+        <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
+            <div class="container-fluid">
+                <a class="navbar-brand abs " href="account">NFT store</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="nav-item" disabled>My NFTs</a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+                        <li class="nav-item">
+                            <span class="navbar-text "></span>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav flex-row justify-content-md-center justify-content-start flex-nowrap">
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-primary btn-customized" (click)="onClickForm()">ADD
+                                NFT</button>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" routerLink="manage">Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" type="button" (click)="logout()">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div>
+            <h2>My NFTs</h2>
+            <div class="container h-100">
+                <div class="row h-100 justify-content-center align-items-center">
+                    <div class="col-10 col-md-8 col-lg-6">
+                        <div *ngIf="visibleAlert">
+                            <alert type="danger" dismissOnTimeout="5000" [dismissible]="visibleAlert"
+                                (onClosed)="onClosed()"><span [innerHtml]="alertMsg"></span></alert>
+                        </div>
+                        <div *ngIf="isActive">
+                            <form class="form-example" #addForm="ngForm">
+                                <h3>CREATE NFT</h3>
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input required type="text" name="name" #name="ngModel" ngModel class="form-control"
+                                        placeholder="Name">
+                                    <div *ngIf="name.errors">
+                                        <div *ngIf="name.errors?.['required']">
+                                            Name required
+                                        </div>
+                                    </div>
+                                </div>
+                                <pre></pre>
+                                <div class="form-group">
+                                    <label for="price">Price</label>
+                                    <input required type="number" name="price" #price="ngModel" ngModel class="form-control"
+                                        min="0">
+                                    <div *ngIf="price.errors">
+                                        <div *ngIf="price.errors?.['required']">
+                                            Price required
+                                        </div>
+                                    </div>
+                                </div>
+                                <pre></pre>
+                                <div class="form-group">
+                                    <label for="image">Image</label>
+                                    <input required type="file" name="image" #image="ngModel" ngModel
+                                        (change)="onFileChanged($event)" class="form-control"
+                                        accept="image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp">
+                                </div>
+                                <pre></pre>
+                                <button type="button" class="btn btn-primary btn-customized"
+                                    [disabled]="!addForm.form.valid" (click)="addNft(addForm)" style="margin-bottom: 10px;">ADD</button>
                             </form>
-                        </div>      
-                </li>-->
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" routerLink="manage">Account</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" type="button" (click)="logout()">Logout</a>
-                </li>
-            </ul>
-      </div>
-    </div>
-</nav>
-<div>
-  
-  <h2>My NFTs</h2>
-
-  <div class="container h-100">
-    <div class="row h-100 justify-content-center align-items-center">
-        <div class="col-10 col-md-8 col-lg-6">
-          <div *ngIf="visibleAlert">
-            <alert type="danger" dismissOnTimeout="5000" [dismissible]="visibleAlert" (onClosed)="onClosed()"><span [innerHtml]="alertMsg"></span></alert>
-          </div>
-          <div *ngIf="isActive">
-            <form class="form-example" #addForm = "ngForm">
-              <h3>CREATE NFT</h3>
-              <div class="form-group">
-                <label for="name" >Name</label>
-                <input required type="text" name="name" #name="ngModel" ngModel class="form-control" placeholder="Name">
-                <div *ngIf="name.errors"> 
-                  <div *ngIf="name.errors?.['required']"> 
-                      Name required
-                  </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-              <pre></pre>
-              <div class="form-group">
-                <label for="price" >Price</label>
-                <input required type="number" name="price" #price="ngModel" ngModel class="form-control" min="0">
-                <div *ngIf="price.errors"> 
-                  <div *ngIf="price.errors?.['required']"> 
-                      Price required
-                  </div>
+
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col" *ngFor="let nft of myNFTs; index as i">
+                    <div class="card h-100">
+                        <img src={{retrievedImages[i]}} class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{nft.name}} </h5>
+                            <p class="card-text">PRICE: {{nft.price}}</p>
+                            <div *ngIf="nft.isSold else elseBlock">
+                                <button type='button' disabled class="btn btn-primary btn-customized">SOLD</button>
+                            </div>
+                            <ng-template #elseBlock>
+                                <a href="javascript: void(0);" type='button' class="btn btn-primary btn-customized"
+                                    (click)="openConfirm(template)">Sell</a>
+                            </ng-template>
+                            <ng-template #template>
+                                <div class="modal-body text-center">
+                                    <p>Do you want to sell {{nft.name}}?<br>PRICE: {{nft.price}}</p>
+                                    <button type="button" class="btn btn-default btn-customized" (click)="sellNft(nft)">Yes
+                                    </button>
+                                    <button type="button" class="btn btn-primary btn-customized" (click)="decline()"
+                                        style="margin-left:10px"> No</button>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <pre></pre>
-              <div class="form-group">
-                <label for="image" >Image</label>
-                <input required type="file" name="image" #image="ngModel" ngModel (change)="onFileChanged($event)" class="form-control" accept="image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp">
-              </div>
-              <pre></pre>
-              <button type="button" class="btn btn-primary btn-customized" [disabled]="!addForm.form.valid" (click)="addNft(addForm)">ADD</button>
-            </form>
-          </div>
+            </div>
         </div>
-    </div>
-  </div>
-    
-    <!--<ul class="nft">
-        <li *ngFor="let nft of myNFTs; index as i">
-            {{nft.name}} 
-            <a href="javascript: void(0);" type ='button' class="btn btn-link" (click)="openConfirm(template)">Sell</a>
-            <div class="container row">
-                <div class="col-md-12">
-                    <img src={{retrievedImages[i]}}>
-                </div>
-            </div>
-            <ng-template #template>
-                <div class="modal-body text-center">
-                  <p>Do you want to sell {{nft.name}} - PRICE: {{nft.price}} ?</p>
-                  <button type="button" class="btn btn-default" (click)="removeNft(nft)" >Yes</button>
-                  <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
-                </div>
-              </ng-template>
-        </li>
-    </ul>-->
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-      <div class="col" *ngFor="let nft of myNFTs; index as i">
-        <div class="card h-100">
-          <img src={{retrievedImages[i]}} class="card-img-top">
-          <div class="card-body">
-            <h5 class="card-title">{{nft.name}} </h5>
-            <p class="card-text">PRICE: {{nft.price}}</p>
-            <div *ngIf="nft.isSold else elseBlock">
-              <button type ='button' disabled class="btn btn-primary btn-customized">SOLD</button>
-            </div>
-            <ng-template #elseBlock>
-              <a href="javascript: void(0);" type ='button' class="btn btn-primary btn-customized" (click)="openConfirm(template)">Sell</a>
-            </ng-template>
-            <ng-template #template>
-              <div class="modal-body text-center">
-                <p>Do you want to sell {{nft.name}}?<br>PRICE: {{nft.price}}</p>
-                <button type="button" class="btn btn-default btn-customized" (click)="sellNft(nft)" >Yes </button>
-                <button type="button" class="btn btn-primary btn-customized" (click)="decline()" style="margin-left:10px"> No</button>
-              </div>
-            </ng-template>
-          </div>
-        </div>
-      </div>
-  </div>
 
-</div>
-
-
-</body>
+    </body>
 </html>
-<!--
-<pre></pre>
-<a routerLink="manage">Manage your account</a>
-<pre></pre>
-<button type="button" (click)="logout()">LOGOUT</button>-->

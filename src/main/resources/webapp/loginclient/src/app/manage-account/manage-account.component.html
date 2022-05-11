@@ -1,97 +1,77 @@
-
 <html lang="en" class="h-100">
-<body class="h-100">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
-        <div class="container-fluid">
-            <a class="navbar-brand abs " href="account">NFT store</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
-                    <li class="nav-item">
-                        <span class="navbar-text ">Welcome {{user.mail}}</span>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav flex-row justify-content-md-center justify-content-start flex-nowrap">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" routerLink="/account">My NFTs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" type="button" (click)="logout()">Logout</a>
-                    </li>
-                </ul>
-        </div>
-        </div>
-    </nav>
-    <div class="container h-100">
-        <div class="row h-100 justify-content-center align-items-center">
-            <div class="col-10 col-md-8 col-lg-6">
-                <form class="form-example" #managerForm = "ngForm" >
-                    <div *ngIf="visibleAlert">
-                        <alert type="danger" dismissOnTimeout="5000" [dismissible]="visibleAlert" (onClosed)="onClosed()"><span [innerHtml]="alertMsg"></span></alert>
-                    </div>
-                    <h1>Account Manager</h1>
-                    <!--<pre></pre>-->
-                    <h3>Change your password</h3>
-                    <div class="form-group">
-                        <label for="password">New password</label><br>
-                        <input required type="password" name="password" id="password" class = "form-control password" #password="ngModel" ngModel placeholder="Enter new password">
-                        <div *ngIf="password.errors"> 
-                            <div *ngIf="password.errors?.['required']"> 
-                                Password required
-                            </div>
-                        </div>
-                    </div>
-                    <pre></pre>
-                    <button class="btn btn-primary btn-customized" id="update-user-form" type="submit" [disabled]="!managerForm.form.valid" (click)="submitUpdate(managerForm)">Update</button>
-                    <pre></pre>
-                    <pre></pre>
-                    <hr>
-                    <pre></pre>
-                    <h3>Delete your account</h3>
-                    <button class="btn btn-primary btn-customized" id="delete-user-form" type="submit" (click)="openConfirm(template)">Delete</button>
-                    <ng-template #template>
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 id="dialog-sizes-name1" class="modal-title pull-left">Are you sure you want to delete your account?</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>Deleting your account is permanent and will remove all your NFT</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default btn-customized" (click)="submitDelete(managerForm)" >Yes</button>
-                                <button type="button" class="btn btn-primary btn-customized" (click)="decline()" style="margin-left:10px">No</button>
-                            </div>
-                        </div>
-                    </ng-template>
-                    <pre></pre>
-                </form>
+    <body class="h-100">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
+            <div class="container-fluid">
+                <a class="navbar-brand abs " href="account">NFT store</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a  class="nav-item" disabled>Account</a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+                        <li class="nav-item">
+                            <span class="navbar-text "></span>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav flex-row justify-content-md-center justify-content-start flex-nowrap">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" routerLink="/account">My NFTs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" type="button" (click)="logout()">Logout</a>
+                        </li>
+                    </ul>
             </div>
-        </div>
-    </div>
-<!--
-    <div class="container">
-        <h1>Account Manager</h1>
-        <form #managerForm = "ngForm">
-            <pre></pre>
-            <div class="form-group">
-                <h3>Change your password</h3>
-                <label for="password">New password</label><br>
-                <input required type="password" name="password" class = "form-control" #password="ngModel" ngModel>
-                <div *ngIf="password.invalid" class="alert alert-danger">
-                    <p>Password required</p>
+            </div>
+        </nav>
+        
+        <div class="container h-100">
+            <div class="row h-100 justify-content-center align-items-center">
+                <div class="col-10 col-md-8 col-lg-6">
+                    <form class="form-example" #managerForm = "ngForm" >
+                        <div *ngIf="visibleAlert">
+                            <alert type="danger" dismissOnTimeout="5000" [dismissible]="visibleAlert" (onClosed)="onClosed()"><span [innerHtml]="alertMsg"></span></alert>
+                        </div>
+                        <h1>Account Manager</h1>
+                        <h3>Change your password</h3>
+                        <h6>Mail address: {{user.mail}}</h6>
+                        <div class="form-group">
+                            <label for="password">New password</label><br>
+                            <input required type="password" name="password" id="password" class = "form-control password" #password="ngModel" ngModel placeholder="Enter new password">
+                            <div *ngIf="password.errors"> 
+                                <div *ngIf="password.errors?.['required']"> 
+                                    Password required
+                                </div>
+                            </div>
+                        </div>
+                        <pre></pre>
+                        <button class="btn btn-primary btn-customized" id="update-user-form" type="submit" [disabled]="!managerForm.form.valid" (click)="submitUpdate(managerForm)">Update</button>
+                        <pre></pre>
+                        <pre></pre>
+                        <hr>
+                        <pre></pre>
+                        <h3>Delete your account</h3>
+                        <button class="btn btn-primary btn-customized" id="delete-user-form" type="submit" (click)="openConfirm(template)">Delete</button>
+                        <ng-template #template>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 id="dialog-sizes-name1" class="modal-title pull-left">Are you sure you want to delete your account?</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Deleting your account is permanent and will remove all your NFT</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default btn-customized" (click)="submitDelete(managerForm)" >Yes</button>
+                                    <button type="button" class="btn btn-primary btn-customized" (click)="decline()" style="margin-left:10px">No</button>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <pre></pre>
+                    </form>
                 </div>
             </div>
-            <pre></pre>
-            <button class="btn btn-secondary" id="update-user-form" type="submit" [disabled]="!managerForm.form.valid" (click)="submitUpdate(managerForm)">Update</button>
-            <pre></pre>
-            <pre></pre>
-            <h3>Delete your account</h3>
-            <button class="btn btn-secondary" id="delete-user-form" type="submit" (click)="submitDelete(managerForm)">Delete</button>
-            <pre></pre>
-            <a routerLink="/account">Back to your user page</a>
-        </form>
-    </div>-->
-</body>
+        </div>
+
+    </body>
 </html>

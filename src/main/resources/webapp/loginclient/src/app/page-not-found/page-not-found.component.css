@@ -1,0 +1,31 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #888;
+    line-height: 30px;
+    text-align: center;
+}
+
+a {
+    color: #4DB6AC;
+    border-bottom: 1px #4DB6AC;
+    text-decoration: none;
+    transition: all .3s;
+}
+
+a:hover,
+a:focus {
+    color: #47a69d;
+    border-bottom: 1px solid #47a69d;
+    text-decoration: none;
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: 300;
+    color: #555;
+    line-height: 46px;
+    font-style: italic;
+    margin-top: 100px;
+}

@@ -3,7 +3,7 @@ import { Image } from "./image";
 
 export interface MyNft{
     name: string;
-    owner?: User;   //no owner?
+    owner?: User;
     price: number;
     image: Image;
     isSold: boolean;

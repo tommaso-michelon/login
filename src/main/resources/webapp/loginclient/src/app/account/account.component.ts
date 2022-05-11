@@ -2,14 +2,12 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
-import { MyNftService } from '../my-nft.service';
-import { MyNft } from '../myNft';
-import { User } from '../user';
-import { Image } from '../image';
+import { AuthService } from '../service/auth.service';
+import { MyNftService } from '../service/my-nft.service';
+import { MyNft } from '../interface/myNft';
+import { User } from '../interface/user';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-//import { Tracing } from 'trace_events';
 
 @Component({
   selector: 'app-account',
@@ -50,26 +48,26 @@ export class AccountComponent implements OnInit {
     this.getAllNft();
   }
 
-  public logout():void{
+  public logout(): void {
     this.authService.logout();
     this.router.navigate(['login']);
   }
 
-  //Gets called when the user wants to add and nft
-  public onClickForm(): void{
+  //Called when the user wants to add and nft
+  public onClickForm(): void {
     this.isActive = !this.isActive;
   }
 
-  //Gets called when the user selects an image
-  public onFileChanged(event: any) {
+  //Called when the user selects an image
+  public onFileChanged(event: any): void {
     //Select File
     this.selectedFile = event.target.files[0];
   }
 
-  //Gets called to get the image of an NFT from back end
-  public getImage(imageName: string, i: number) {
+  //Called to get the image of an NFT from back end
+  public getImage(imageName: string, i: number): void {
     //Make a call to Spring Boot to get the Image Bytes.
-    console.log("CHIEDO 2: ", imageName);
+    //console.log("CHIEDO 2: ", imageName);
     this.httpClient.get('http://localhost:8080/get/' + imageName)
       .subscribe((
         res: any) => {
@@ -81,7 +79,7 @@ export class AccountComponent implements OnInit {
       );
   }
 
-  public addNft(addForm: NgForm):void{
+  public addNft(addForm: NgForm): void {
     this.myNewNft = addForm.value;
     if(this.myNewNft) this.myNewNft.owner = this.user;
 
@@ -116,7 +114,7 @@ export class AccountComponent implements OnInit {
           };
           this.myNewNft!.image = image;
         if(this.myNewNft) this.myNewNft.image = image;
-        console.log("Form submitted", this.myNewNft);   //sistemare
+        //console.log("Form submitted", this.myNewNft);
         this.myNftService.addNFT(this.myNewNft!).subscribe(
           (response: MyNft) => {
             addForm.reset();
@@ -153,12 +151,12 @@ export class AccountComponent implements OnInit {
   }
 
   //set alert not visible
-  public onClosed(): void{
+  public onClosed(): void {
     this.visibleAlert = false;
   }
 
-  public getAllNft():void{
-    console.log("GetAll submitted");   //sistemare
+  public getAllNft(): void {
+    //console.log("GetAll submitted");
     this.retrievedImages.splice(0, this.retrievedImages.length);  //removeAll images
     var mail: string = JSON.parse(localStorage.getItem("currentUser") || "").mail;
     this.myNftService.getAllNFT(mail).subscribe(
@@ -170,23 +168,21 @@ export class AccountComponent implements OnInit {
           if(nft.isSold) this.myNFTs.push(nft);
         }
         
-        //this.myNFTs = this.myNFTs.concat(response);
-        console.log("elementi array:", this.myNFTs.length, "\n", this.myNFTs.toString()); //togliere
+        //console.log("elementi array:", this.myNFTs.length, "\n", this.myNFTs.toString());
         for(let i=0; i<this.myNFTs.length; i++){
-          console.log("Chiedo img: ", this.myNFTs[i].image.name);
-          //this.nft_images[i].name = this.myNFTs[i].image.name;
+          //console.log("Chiedo img: ", this.myNFTs[i].image.name);
           this.getImage(this.myNFTs[i].image.name, i);
         }
 
       },
       (error: HttpErrorResponse) => {
-        console.log(error.message+"\nNFT not valid"); //sistemare
+        console.log(error.message+"\nNFT not valid");
       }
     );
   }
 
   //confirm sell nft
-  openConfirm(template: TemplateRef<any>) {
+  openConfirm(template: TemplateRef<any>): void {
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
   
@@ -195,9 +191,9 @@ export class AccountComponent implements OnInit {
     this.modalRef!.hide();
   }
 
-  public sellNft(sellNFT: MyNft): void{
+  public sellNft(sellNFT: MyNft): void {
     this.modalRef!.hide();
-    console.log("sellNft submitted: ", sellNFT.name);   //sistemare
+    //console.log("sellNft submitted: ", sellNFT.name);
     sellNFT.isSold = true;
     this.myNftService.updateNFT(sellNFT).subscribe(
       (response: MyNft) => {
@@ -211,15 +207,14 @@ export class AccountComponent implements OnInit {
     );
   }
 
-  
-  public removeNft(remNFT: MyNft): void{
+  //not used
+  public removeNft(remNFT: MyNft): void {
     this.modalRef!.hide();
-    console.log("removeNft submitted: ", remNFT.name);   //sistemare
+    //console.log("removeNft submitted: ", remNFT.name);
     this.myNftService.deleteNFT(this.user.mail, remNFT.name).subscribe(
       (response: MyNft) => {
         this.toastr.success(remNFT.name+' selled - PRICE: '+remNFT.price,'NFT deleted!');
         this.myNFTs.splice(0, this.myNFTs.length);  //removeAll nft
-        //this.retrievedImages.splice(0, this.retrievedImages.length);  //removeAll images
         this.getAllNft();
       },
       (error: HttpErrorResponse) => {
