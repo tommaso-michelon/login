@@ -1,2 +1,2 @@
-# login
-Login project developed with Spring Boot  framework
+# NFT store
+NFT store developed with Spring and Angular frameworks
