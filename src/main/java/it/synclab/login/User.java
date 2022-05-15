@@ -13,9 +13,7 @@ public class User {
 	private String mail;
 	@Column(nullable = false)
 	private String password;
-	
-	/*@OneToMany(cascade=CascadeType.ALL)
-	private Set<MyNft> myNfts;*/
+
 
 	public User(String mail, String password) {
 		this.mail = mail;

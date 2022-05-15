@@ -21,11 +21,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	/*
-	@GetMapping("/login")
-	public String login() {
-		return "login";
-	}*/
 	
 	@GetMapping("/users")
 	public List<User> getAllUsers() {

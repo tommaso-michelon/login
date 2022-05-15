@@ -37,10 +37,6 @@ public class MyNftService {
 	}
 	
 	public void addNft(MyNft nft) {
-		//if(isSaved(nft.getName())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nft already saved with the same name");
-		/*Object t = new User("aa@mail.com", "cc");
-		MyNft neee = new MyNft("nft3", (User)t, "IDDD", 2, "image");*/
-		//System.out.println("NFT arrivato: "+nft.getOwner());
 		System.out.println("Service");
 		Image[] img = imageRepository.findAllByName(nft.getImage().getName()).get();
 		while(img.length == 0) {

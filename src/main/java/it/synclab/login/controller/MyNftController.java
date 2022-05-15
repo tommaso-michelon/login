@@ -17,7 +17,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 
 import it.synclab.login.MyNft;
-import it.synclab.login.User;
 import it.synclab.login.service.MyNftService;
 
 @RestController
@@ -40,9 +39,9 @@ public class MyNftController {
 	public void addNft(@RequestBody Object nft) throws ResponseStatusException {
 		//if(nft instanceof MyNft) System.out.println("NFT");
 		ObjectMapper mapper = new ObjectMapper();
-		MyNft pojo = mapper.convertValue(nft, MyNft.class);
+		MyNft temp = mapper.convertValue(nft, MyNft.class);
 		System.out.println("Controller");
-		myNftService.addNft(pojo);
+		myNftService.addNft(temp);
 	}
 	
 	@PutMapping("/nft")

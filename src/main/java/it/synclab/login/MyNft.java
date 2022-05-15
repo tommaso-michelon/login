@@ -8,14 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.ForeignKey;
 
@@ -69,21 +66,10 @@ public class MyNft implements Serializable{
 	@JsonSetter("owner")
 	public void setOwner(Object owner) {
 		ObjectMapper mapper = new ObjectMapper();
-		User pojo = mapper.convertValue(owner, User.class);
+		User u = mapper.convertValue(owner, User.class);
 		//System.out.println("setOwner User 1 arg - mail: "+ pojo.getMail());
-		this.owner = new User(pojo.getMail(), pojo.getPassword());
-	}
-	/*
-	public void setOwner(String mail, String password) {
-		this.owner = new User(mail, password);
-		System.out.println("setOwner String 2 arg");
-	}
-	
-	public void setOwner(String mail) {
-		this.owner = new User(mail, "");
-		System.out.println("setOwner String 1 arg");
-	}*/
-	
+		this.owner = new User(u.getMail(), u.getPassword());
+	}	
 	
 	public double getPrice() {
 		return price;

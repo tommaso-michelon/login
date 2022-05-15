@@ -2,7 +2,6 @@ package it.synclab.login.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
@@ -31,7 +30,6 @@ public class ImageService {
 	    
 	    System.out.println("Original Image Byte Size - " + file.getBytes().length);
 	    return imageRepository.save(img);
-	    //return ResponseEntity.status(HttpStatus.OK);   type: BodyBuilder
 	}
 	
 	public Image getImage(String name) {
