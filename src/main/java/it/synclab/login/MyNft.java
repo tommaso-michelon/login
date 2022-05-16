@@ -67,7 +67,6 @@ public class MyNft implements Serializable{
 	public void setOwner(Object owner) {
 		ObjectMapper mapper = new ObjectMapper();
 		User u = mapper.convertValue(owner, User.class);
-		//System.out.println("setOwner User 1 arg - mail: "+ pojo.getMail());
 		this.owner = new User(u.getMail(), u.getPassword());
 	}	
 	

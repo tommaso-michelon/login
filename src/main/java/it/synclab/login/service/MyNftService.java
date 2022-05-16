@@ -37,27 +37,22 @@ public class MyNftService {
 	}
 	
 	public void addNft(MyNft nft) {
-		System.out.println("Service");
 		Image[] img = imageRepository.findAllByName(nft.getImage().getName()).get();
 		while(img.length == 0) {
-			System.out.println("Iterazione");
 			img = imageRepository.findAllByName(nft.getImage().getName()).get();
 		}
 		nft.setImage(img[img.length-1]);
-		System.out.println("imageID: "+nft.getImage().getId());
-		System.out.println("Risposta: "+myNftRepository.save(nft));
+		myNftRepository.save(nft);
 		//myNftRepository.insertNft(nft.getName(), nft.getImage(), nft.getPrice(), nft.getOwner().getMail());
 	}
 	
 	public void updateNft(MyNft nft) {
 		if(!isSaved(nft.getName())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nft not found");
 		myNftRepository.updateNft(nft.getName(), nft.getIsSold());
-		//myNftRepository.save(nft);
 	}
 
 	public void deleteNft(String mail, String nameNft) {
 		User tempUser = new User(mail, "");
-		System.out.println("delete: "+ tempUser.getMail());
 		//if(!isSaved(nameNft)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nft not found"); 
 		myNftRepository.deleteByNameAndOwner(nameNft, tempUser);;
 	}

@@ -2,6 +2,7 @@ package it.synclab.login;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +23,7 @@ public class Image {
 	private String type;
 	@Column(name = "data" , length = 1000)
 	private byte[] data;
+	private byte[] hashCode;
 
 	
 	public Image() { }
@@ -30,6 +32,7 @@ public class Image {
 		this.name = name;
 		this.type = type;
 		this.data = data;
+		this.hashCode = getHashImg();
 	}
 
 	public Long getId() {
@@ -64,7 +67,16 @@ public class Image {
 		this.data = data;
 	}
 	
-	public byte[] getHash() {
+	public byte[] getHashCode() {
+		return hashCode;
+	}
+	
+	public void setHashCode() {
+		this.hashCode = getHashImg();
+	}
+	
+	//get hashCode of data
+	private byte[] getHashImg() {
 		MessageDigest digest;
 		try {
 			digest = MessageDigest.getInstance("SHA-256");
@@ -73,6 +85,12 @@ public class Image {
 			e.printStackTrace();
 			return new byte[0];
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "Image [id=" + id + ", name=" + name + ", type=" + type + ", data=" + Arrays.toString(data)
+				+ ", hashCode=" + Arrays.toString(hashCode) + "]";
 	}
 	
 }

@@ -14,6 +14,7 @@ public interface ImageRepository extends JpaRepository<Image, String> {
 	
 	public Optional<Image[]> findAllByName(String name);
 	public Optional<Image> findFirstByName(String name);
+	public Optional<Image> findByHashCode(byte[] hashCode);
 	@Transactional
 	public void deleteById(Long id);
 }

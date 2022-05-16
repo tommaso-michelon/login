@@ -20,7 +20,6 @@ public class ImageController {
 	
 	@PostMapping(value = "/upload")
 	public Image uploadImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
-		System.out.println("Original Image Byte Size - " + file.getBytes().length);
 		return imageService.uploadImage(file);
 	}
 
